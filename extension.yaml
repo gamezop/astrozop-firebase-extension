@@ -1,0 +1,36 @@
+name: astrozop-scheduled-task
+version: 0.1.1
+specVersion: v1beta
+license: apache-2.0
+
+displayName: "Astrozop Scheduled Task"
+description: "Runs a Cloud Function every day at 01:00 with ASTROZOP_API_TOKEN."
+
+resources:
+  - name: dailyTask
+    type: firebaseextensions.v1beta.function
+    description: "Cloud Function triggered every day at 01:00"
+    properties:
+      location: ${param:LOCATION}
+      runtime: nodejs20
+      availableMemoryMb: 256
+      scheduleTrigger:
+        schedule: "0 1 * * *"
+      entryPoint: dailyTask
+
+params:
+  - param: ASTROZOP_API_TOKEN
+    label: "Astrozop API Token"
+    description: "Your API token for authenticating requests to Astrozop."
+    type: string
+    required: true
+    immutable: true
+    validationRegex: "^.{36}$"
+    validationErrorMessage: "Invalid API token format."
+
+  - param: LOCATION
+    label: "Cloud Functions location"
+    description: "The region where Cloud Functions should run (e.g. us-central1, europe-west1)."
+    type: string
+    required: true
+    default: us-central1
