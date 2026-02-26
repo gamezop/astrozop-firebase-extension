@@ -1,29 +1,37 @@
-<!-- 
-This file provides your users an overview of your extension. All content is optional, but this is the recommended format. Your users will see the contents of this file when they run the `firebase ext:info` command.
-
-Include any important functional details as well as a brief description for any additional setup required by the user (both pre- and post-installation).
-
-Learn more about writing a PREINSTALL.md file in the docs:
-https://firebase.google.com/docs/extensions/publishers/user-documentation#writing-preinstall
--->
-
 # Overview
 
-This Firebase extension integrates with [Astrozop's Notification Content API](https://docs.platform.gamezop.com/publishers/astrozop/astrozop-notifications-content-api) to provide fresh, daily content for user notifications. It's designed for Astrozop publishers to engage users with personalized, relevant content like daily horoscopes, reducing manual effort and boosting retention.
+This extension sends daily horoscope push notifications to your users using Firebase Cloud Messaging, with content provided by Astrozop.
 
-When triggered by an HTTP request or scheduled task, the extension fetches personalized notification content from Astrozop and sends it to relevant Firebase Cloud Messaging (FCM) topics.
+When your users click on the notifications, they are taken to a web page containing your [Astrozop Unique Link](https://docs.platform.gamezop.com/publishers/astrozop/integrate-unique-link) so that revenue from the ads shown on that page can be attributed to you and shared with you under Gamezop Business' revenue-sharing program.
 
-## Pre-installation Setup
+Please review the requirements and setup steps below before installing.
 
-- Contact <sales@gamezop.com> to obtain your Astrozop token. This token is required during the extension installation process.
-- Optionally, select the deployment region (default is us-central1).
+## Prerequisites
+
+Before installing this extension, make sure that:
+
+- Your Firebase project has **Cloud Messaging** enabled.
+- **Cloud Functions** are enabled in your project.
+- You have a [**Gamezop Business Property ID** for Astrozop](https://docs.platform.gamezop.com/publishers/get-started/key-terms) and a valid **Bearer Token** for the [Astrozop Notifications Content API](https://docs.platform.gamezop.com/publishers/astrozop/astrozop-notifications-content-api).
+- Your app is already configured to receive FCM push notifications.
+
+If you wish to sign up as an Astrozop partner, contact us at <partnerships@gamezop.com>
+
+## Important notes
+
+- This extension supports **one installation per Firebase project**.
+- Horoscope personalization is based on **sun sign and local timezone**.
+- No user data is stored server-side by this extension.
+- You must integrate the Astrozop helper code in your app for notifications to work. Know more about the helper code [here](https://github.com/gamezop/astrozop-firebase-extension-demo-apps).
+
+## What this extension does not do
+
+- It does not calculate horoscopes on-device.
+- It does not manage user consent or opt-in flows.
+- It does not send notifications unless users are subscribed to the correct FCM topics.
 
 ## Billing
 
-This extension uses other Firebase or Google Cloud Platform services which may have associated charges:
+To install an extension, your project must be on the [Blaze (pay as you go) plan](https://firebase.google.com/pricing). There is no cost associated with the usage of the Astrozop APIs associated with this extension.
 
-- Cloud Functions
-
-When you use Firebase Extensions, you're only charged for the underlying resources that you use. A paid-tier billing plan is only required if the extension uses a service that requires a paid-tier plan, for example calling to a Google Cloud Platform API or making outbound network requests to non-Google services. All Firebase services offer a free tier of usage. [Learn more about Firebase billing.](https://firebase.google.com/pricing)
-
-The only charge you will be incurring will be the Firebase resource utilization. There is no cost associated with the usage of Our API.
+If you are ready and meet the requirements above, you can proceed with the installation.

@@ -1,36 +1,56 @@
 name: astrozop-scheduled-task
-version: 0.1.1
+version: 1.0.0
 specVersion: v1beta
 license: apache-2.0
 
-displayName: "Astrozop Scheduled Task"
-description: "Runs a Cloud Function every day at 01:00 with ASTROZOP_API_TOKEN."
+displayName: "Astrozop: Daily Horoscope Notifications"
+description: "Sends daily horoscope push notifications to users by sun sign and local timezone, with content and revenue-sharing powered by Astrozop."
+icon: icon.png
+tags: [horoscope, astrology, push-notifications, firebase, fcm, engagement, daily-notifications, content-monetization, affiliates]
+sourceUrl: "https://github.com/gamezop/astrozop-firebase-extension"
+releaseNotesUrl: "https://github.com/gamezop/astrozop-firebase-extension/blob/main/CHANGELOG.md"
+author:
+  authorName: Gamezop Business
+  email: partnerships@gamezop.com
+  url: https://business.gamezop.com
+
+roles:
+  - role: firebasecloudmessaging.admin
+    reason: "Allows this extension to publish a message to FCM topics within Cloud Functions."
+  - role: firebasenotifications.admin
+    reason: "Allows this extension to send FCM notifications."
 
 resources:
-  - name: dailyTask
+  - name: sendZodiacNotifications
     type: firebaseextensions.v1beta.function
-    description: "Cloud Function triggered every day at 01:00"
+    description: "Cloud Function triggered every 30 minutes to send daily horoscope notifications"
     properties:
-      location: ${param:LOCATION}
-      runtime: nodejs20
+      location: us-central1
+      runtime: nodejs22
       availableMemoryMb: 256
       scheduleTrigger:
-        schedule: "0 1 * * *"
-      entryPoint: dailyTask
+        schedule: "*/30 * * * *"
+        timeZone: "UTC"
+      entryPoint: sendZodiacNotifications
+      environmentVariables:
+        ASTROZOP_API_TOKEN: ${param:ASTROZOP_API_TOKEN}
+        SCHEDULE_TIME: ${param:SCHEDULE_TIME}
 
 params:
   - param: ASTROZOP_API_TOKEN
-    label: "Astrozop API Token"
-    description: "Your API token for authenticating requests to Astrozop."
+    label: "Astrozop Notifications Content API Token"
+    description: "Your Bearer Token issued by the Gamezop team to access the Astrozop Notifications Content API."
     type: string
     required: true
     immutable: true
     validationRegex: "^.{36}$"
-    validationErrorMessage: "Invalid API token format."
+    validationErrorMessage: "Invalid Bearer Token format."
 
-  - param: LOCATION
-    label: "Cloud Functions location"
-    description: "The region where Cloud Functions should run (e.g. us-central1, europe-west1)."
+  - param: SCHEDULE_TIME
+    label: "Daily Send Time"
+    description: "Local time when users should receive their daily horoscope notification. Time is interpreted in each user's local timezone."
     type: string
-    required: true
-    default: us-central1
+    default: "09:00"
+    required: false
+    validationRegex: "^(?:[01]\\d|2[0-3]):(?:00|30)$"
+    validationErrorMessage: "Time must be in HH:mm 24-hour format, with minutes as either 00 or 30. Examples: '09:00', '14:30', '23:00'."
