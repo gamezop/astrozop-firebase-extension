@@ -1,3 +1,7 @@
+## Version 1.0.1
+
+- Downgrade Node and Typescript version to publish the extension
+
 ## Version 1.0.0
 
 - Initial release of Astrozop Firebase Extension
