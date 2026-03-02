@@ -1,9 +1,9 @@
 name: astrozop-scheduled-task
-version: 1.0.1
+version: 1.0.0
 specVersion: v1beta
 license: apache-2.0
 
-displayName: "Astrozop: Daily Horoscope Notifications"
+displayName: Astrozop Daily Horoscope Notifications
 description: "Sends daily horoscope push notifications to users by sun sign and local timezone, with content and revenue-sharing powered by Astrozop."
 icon: icon.png
 tags: [horoscope, astrology, push-notifications, firebase, fcm, engagement, daily-notifications, content-monetization, affiliates]
