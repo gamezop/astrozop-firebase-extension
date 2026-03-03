@@ -1,4 +1,4 @@
-name: astrozop-scheduled-task
+name: astrozop-horoscope-notifications
 version: 1.0.0
 specVersion: v1beta
 license: apache-2.0
@@ -21,7 +21,7 @@ roles:
     reason: "Allows this extension to send FCM notifications."
 
 resources:
-  - name: sendZodiacNotifications
+  - name: sendAstrozopHoroscopeNotifications
     type: firebaseextensions.v1beta.function
     description: "Cloud Function triggered every 30 minutes to send daily horoscope notifications"
     properties:
@@ -31,7 +31,7 @@ resources:
       scheduleTrigger:
         schedule: "*/30 * * * *"
         timeZone: "UTC"
-      entryPoint: sendZodiacNotifications
+      entryPoint: sendAstrozopHoroscopeNotifications
       environmentVariables:
         ASTROZOP_API_TOKEN: ${param:ASTROZOP_API_TOKEN}
         SCHEDULE_TIME: ${param:SCHEDULE_TIME}

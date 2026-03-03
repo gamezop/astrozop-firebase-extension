@@ -6,9 +6,9 @@ admin.initializeApp({
 });
 
 /**
- * Sends daily zodiac notifications to all zodiac sign topics
+ * Sends daily horoscope notifications to all zodiac sign topics
  */
-export const sendZodiacNotifications =
+export const sendAstrozopHoroscopeNotifications =
   async (): Promise<string | null> => {
       const service = new AstrozopNotificationService();
       return service.sendDailyNotifications();
